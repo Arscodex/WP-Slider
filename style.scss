@@ -1,13 +1,13 @@
 /*
-Theme Name: Interact
+Theme Name: WP-Slider
 Theme URI: http://wordpress.org/
 Author: Josh Lopez
 Author URI: http://wordpress.org/
-Description: Custom theme for the Interact Theatre Company.
+Description: Custom theme with a built-in slider.
 Version: 1.0
 License: Private
 Tags: red, yellow, light, one-column, two-columns, right-sidebar, flexible-width, custom-header, custom-menu, editor-style, featured-images, microformats, post-formats, rtl-language-support, sticky-post, translation-ready
-Text Domain: interact
+Text Domain: slider
 
 */
 
@@ -34,6 +34,12 @@ $white:#ffffff;
 //arial font
 $mainFont:Arial, sans;
 
+//big break point
+$breakBig:1200px;
+
+//small break point
+$breakSmall:500px;
+
 /* Boilerplate: Image align for word wrap */
 
 img.alignright { float: right; margin: 0 0 1em 1em; }
@@ -42,6 +48,8 @@ img.aligncenter { display: block; margin-left: auto; margin-right: auto; }
 .alignright { float: right; }
 .alignleft { float: left; }
 .aligncenter { display: block; margin-left: auto; margin-right: auto; }
+
+/* Wordpress Stuff */
 
 .site-content article {
 	border-bottom: 4px double #ededed;
@@ -86,9 +94,7 @@ h3{
 
 #wrapper{
 	width:100%;
-	min-height:580px;
 	position:absolute;
-	top:100px;
 	font:{
 		family:$mainFont;
 	}
@@ -105,6 +111,20 @@ h3{
 }
 
 /* Header Styles */
+
+#tempHeader{
+	height:40px;
+	width:100%;
+	color:$fontLight;
+	text-align:center;
+	padding-top:10px;
+	font:{
+		size:30px;
+		weight:bold;
+		family:arial;
+	}
+	background-color:$black;
+}
 
 #header{
 	height:100px;
@@ -125,9 +145,7 @@ h3{
 	height:100px;
 	float:left;
 }
-
-// Link to web-based assets folder 
-// $assets:'http://interactla.org/2015/wordpress/wp-content/uploads/2015/03/'; 
+ 
 $assets:'assets/'; 
 
 #logo{
@@ -163,7 +181,7 @@ $assets:'assets/';
 }
 
 #pageTitle{
-	width:65%;
+	width:423px;
 	height:55px;
 	text:{
 		align:left;
@@ -212,6 +230,7 @@ $assets:'assets/';
 
 #contactMenu{
 	width:75%;
+	height:35px;
 	margin:0 auto;
 	& ul{
 		width:80%;
@@ -259,6 +278,7 @@ $assets:'assets/';
 /* Contact Links */
 
 #contactLinksContainer{
+	padding-top:5px;
 	width:20%;
 	height:100px;
 	float:left;
@@ -299,16 +319,17 @@ $assets:'assets/';
 #slideshowCoverLeft{
 	position:absolute;
 	z-index:5;
-	width:100%;
-	height:50px;
 	background-color:$black;
+}
+
+#slideshowCoverCenter{
+	position:absolute;
+	z-index:5;
 }
 
 #slideshowCoverRight{
 	position:absolute;
 	z-index:5;
-	width:100%;
-	height:50px;
 	background-color:$black;
 }
 
@@ -342,7 +363,6 @@ $assets:'assets/';
 
 #slideMeter{
 	min-height:20px;
-	width:100px;
 	margin:0 auto;
 }
 
@@ -363,7 +383,7 @@ $assets:'assets/';
 		style:solid;
 		radius:10px;
 		width:2px;
-		color:$white;
+		color:$fontLight;
 	}
 	float:left;
 	&:hover{
@@ -379,7 +399,7 @@ $assets:'assets/';
 		style:solid;
 		radius:10px;
 		width:2px;
-		color:$white;
+		color:$fontLight;
 	}
 	float:left;
 	&:hover{
@@ -390,8 +410,8 @@ $assets:'assets/';
 #slideCaptionContainer{
 	width:100%;
 	min-height:40px;
-	background-color:$fontDark;
-	color:white;
+	background-color:$black;
+	color:$fontLight;
 	text-align:center;
 	font-weight:bold;
 
@@ -614,7 +634,7 @@ $assets:'assets/';
 	background-color:$black;
 	color:$fontLight;
 	width:100%;
-	min-height:80px;
+	min-height:60px;
 	padding:10px 0;
 	font:{
 		family:$mainFont;
@@ -632,16 +652,19 @@ $assets:'assets/';
 }
 
 #footerLinks{
-	width:60%;
+	width:100%;
 	min-height:40px;
 	margin:10px auto 0;
 }
 
 .footerColumn{
 	float:left;
-	margin:0 40px;
+	margin:0 10px;
 	font:{
 		size:12px;
+	}
+	&:first-child{
+		margin-left:30%;
 	}
 	& div{
 		width:100px;

@@ -1,2 +1,1 @@
 #WP-Slider
-# WP-Slider

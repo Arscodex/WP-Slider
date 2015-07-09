@@ -16,9 +16,6 @@
 				<div>Mail</div></br>
 			</div>
 		</div>
-		<div class='divisor'></div>
-		<h3>Copyright Joshua Lopez <?php echo date('Y'); ?></h3>
-	</div>
-	
+	</div>	
 </div>
 

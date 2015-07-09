@@ -1,12 +1,15 @@
 
 //Style variables for page width, height
 
+console.log(page.getDocumentWidth());
+
 var body = document.body;
 var html = document.documentElement;
 var documentHeight = Math.max(body.scrollHeight, body.offsetHeight, 
 	html.clientHeight, html.scrollHeight, html.offsetHeight);
 var documentWidth = Math.max(body.clientWidth, body.offsetWidth, 
 	html.clientWidth, html.offsetWidth);
+
 //The slideshow
 
 var slides = document.getElementsByClassName('slide');
@@ -37,11 +40,13 @@ window.onload = function(){
 	//Assign id numbers to slides and their elements
 	slideshow.assignSlideProperties();
 	//Default instance of the slide animation timer
- 	slideshow.autoSlide();
+ 	//slideshow.autoSlide();
 }
 
 window.onresize = function(){
-
+	//Refresh the page elements
+	page.refreshPage();
+	console.log(page.getDocumentWidth());
 }
 
 document.getElementById('leftArrow').onclick = function(){

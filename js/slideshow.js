@@ -7,9 +7,11 @@
 		animateLeftArrow: animateLeftArrow,
 		animateRightArrow: animateRightArrow,
 		autoSlide: autoSlide,
-		assignSlideProperties: assignSlideProperties
+		assignSlideProperties: assignSlideProperties,
+		setSlideOffsets: setSlideOffsets
 	};
 
+	//The autoSlide function rotates slides every five seconds
 	function autoSlide(){
 		autoSlideInterval = window.setInterval(function(){
 			if(!slideButtonClicked && !pauseClicked){
@@ -19,6 +21,7 @@
 		}, 5000);
 	}
 
+	//These slide properties are used for logistics and animation timing
 	function assignSlideProperties(){
 		for(i=0; i<slides.length; i++){
 			slides[i].slideId = i;
@@ -214,6 +217,19 @@
 		slideCaptions[slideFeatured[0].slideId].classList.add('slideCaptionOn');
 	}
 
+	function setSlideOffsets(){
+		var currentSlide = 0;
+		for(i=0; i<slides.length; i++){
+			if(slides[i].classList.contains('slideFeatured')){
+				currentSlide = slides[i].slideId;
+			}
+		}
+
+
+
+
+	}
+
 	window.slideshow = slideshow;
 
-}());
+})();
