@@ -7,8 +7,7 @@
 		animateLeftArrow: animateLeftArrow,
 		animateRightArrow: animateRightArrow,
 		autoSlide: autoSlide,
-		assignSlideProperties: assignSlideProperties,
-		setSlideOffsets: setSlideOffsets
+		assignSlideProperties: assignSlideProperties
 	};
 
 	//The autoSlide function rotates slides every five seconds
@@ -25,10 +24,13 @@
 	function assignSlideProperties(){
 		for(i=0; i<slides.length; i++){
 			slides[i].slideId = i;
+			slides[i].slideNumber = i+1;
 			slideCaptions[i].slideCaptionId = i;
 			slideMeterDots[i].slideMeterId = i;
 		}
 	}
+
+	//This will, in the future allow the slideshow to pause when auto play is on
 
 	function slideMeterClick(){
 		if(this.classList.contains('slideMeterOn')){
@@ -39,12 +41,16 @@
 		}
 	}
 
+	//The core function that moves the slides to the left and updates the queue
+
 	function slideshowLeft(){
 		if(moveFlag){
 			moveFlag = false;
 			moveMeterLeft();
 			var slideCurrent;
+			//The slide to the right of the current slide, which will become the current slide.
 			var slideNext;
+			//The slide to the right of the current 'next' slide, which will become the new next slide.
 			var slideFutureNext;
 			for(i=0; i<slides.length; i++){
 				if(slides[i].classList.contains('slideFeatured')){
@@ -75,12 +81,16 @@
 		}
 	}
 
+	//The core function that moves the slides to the right and updates the queue
+
 	function slideshowRight(){
 		if(moveFlag){
 			moveFlag = false;
 			moveMeterRight();
 			var slideCurrent;
+			//The previous slide is positioned to the left of the current slide
 			var slidePrevious;
+			//The future previous slide will take the place of the old previous slide
 			var slideFuturePrevious;
 			for(i=0; i<slides.length; i++){
 				if(slides[i].classList.contains('slideFeatured')){
@@ -111,6 +121,8 @@
 		}
 	}
 
+	//Arrow animations trigger when clicking on the arrows
+
 	function animateLeftArrow(element){
 		element.classList.add('moveArrowLeft');
 		window.setTimeout(function(){
@@ -125,15 +137,18 @@
 		}, 1000)
 	}
 
+	//Positioning is extremely important, as it gives the illusion that the slides are in 
+	//a continuous 'film strip.'
+
 	function positionSlidePrevious(element){
 		//The element parameter should be the slides[index] for the currently featured slide. 
-		var previousOffset = 0 - (element.clientWidth-((documentWidth/2)-element.clientWidth/2));
+		var previousOffset = 0 - (element.clientWidth-((page.getDocumentWidth()/2)-element.clientWidth/2));
 		element.style.left = previousOffset + 'px';
 	}
 
 	function positionSlideNext(element){
 		//The element parameter should be the slides[index] for the currently featured slide. 
-		var nextOffset = element.clientWidth+((documentWidth/2)-element.clientWidth/2);
+		var nextOffset = element.clientWidth+((page.getDocumentWidth()/2)-element.clientWidth/2);
 		element.style.left = nextOffset + 'px';
 	}
 
@@ -168,6 +183,8 @@
 			moveFlag = true;
 		}, 1000);
 	}
+
+	//The slide meter dots keep track of which slide in the queue is the featured (current) slide
 
 	function moveMeterRight(){
 		var slideMeterOn = document.getElementsByClassName('slideMeterOn');
@@ -207,6 +224,8 @@
 		}
 	}
 
+	//The caption is loaded on the page with PHP and displayed with the function below
+
 	function refreshCaption(){
 		for(i=0; i<slideCaptions.length; i++){
 			slideCaptions[i].classList.remove('slideCaptionOn');
@@ -215,19 +234,6 @@
 		var slideFeatured = document.getElementsByClassName('slideFeatured');
 		slideCaptions[slideFeatured[0].slideId].classList.remove('slideCaptionOff');
 		slideCaptions[slideFeatured[0].slideId].classList.add('slideCaptionOn');
-	}
-
-	function setSlideOffsets(){
-		var currentSlide = 0;
-		for(i=0; i<slides.length; i++){
-			if(slides[i].classList.contains('slideFeatured')){
-				currentSlide = slides[i].slideId;
-			}
-		}
-
-
-
-
 	}
 
 	window.slideshow = slideshow;

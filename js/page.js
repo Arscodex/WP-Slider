@@ -6,32 +6,36 @@
 		getDocumentWidth:getDocumentWidth
 	}
 
-	//Element Variables
-
-		var headerHeight = document.getElementById('tempHeader').clientHeight;
-		var slideshow = document.getElementById('slideshow');
-		var slideshowContainer = document.getElementById('slideshow')
-		var wrapperHeight = document.getElementById('wrapper').clientHeight;
-		var slideMeterHeight = document.getElementById('slideMeter').clientHeight;
-		var slideElementsHeight = document.getElementById('slideElements').clientHeight;
-		var slideCaptionContainer = document.getElementById('slideCaptionContainer');
-
-		var slideshowCoverLeft = document.getElementById('slideshowCoverLeft');
-		var slideshowHeight = document.getElementById('slideshow').clientHeight;
-		var slideArrowLeft = document.getElementById('leftArrow');
-
-		var slideshowCoverCenter = document.getElementById('slideshowCoverCenter');
-
-		var slideshowCoverRight = document.getElementById('slideshowCoverRight');
-		var slideshowHeight = document.getElementById('slideshow').clientHeight;
-		var slideArrowRight = document.getElementById('rightArrow');
-
-	//Slide Scaling Elements
-
-		var slideOffset;
-
 	//Window Elements
-		var visibleHeight = 0;
+
+
+	var innerDocumentWidth = getDocumentWidth();
+	var headerHeight = document.getElementById('tempHeader').clientHeight;
+	var wrapperHeight = document.getElementById('wrapper').clientHeight;
+
+	//Etc. Slideshow Elements
+
+	var slideshow = document.getElementById('slideshow');
+	var slideshowContainer = document.getElementById('slideshow')
+	var slideMeter = document.getElementById('slideMeter');
+	var slideMeterHeight = document.getElementById('slideMeter').clientHeight;
+	var slideElementsHeight = document.getElementById('slideElements').clientHeight;
+	var slideCaptionContainer = document.getElementById('slideCaptionContainer');
+
+	//Slideshow Cover Elements
+
+	var slideshowCoverLeft = document.getElementById('slideshowCoverLeft');
+	var slideshowHeight = document.getElementById('slideshow').clientHeight;
+	var slideArrowLeft = document.getElementById('leftArrow');
+	var slideshowCoverCenter = document.getElementById('slideshowCoverCenter');
+	var slideshowCoverRight = document.getElementById('slideshowCoverRight');
+	var slideshowHeight = document.getElementById('slideshow').clientHeight;
+	var slideArrowRight = document.getElementById('rightArrow');
+
+	//The visible height is the height of the window's visible portion
+
+	function getVisibleHeight(){
+		var visibleHeight;
 		if(typeof(window.innerHeight) == 'number'){
 			//For non-IE browsers
 			visibleHeight = window.innerHeight;
@@ -42,29 +46,44 @@
 			//For IE ver 4
 			visibleHeight = document.body.clientHeight;
 		}
-		var innerDocumentWidth = getDocumentWidth();
+
+		return visibleHeight;
+	}
+
+	//The document width is the width of the window's display area
 
 	function getDocumentWidth(){
 		return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth || 0;
 	}
 
+	//The width for slides based on the current document dimensions
+
 	function getSlideWidth(){
 
-		//Get the variable height for the slideshow area by accounting for the other elements first.
+		var documentWidth = getDocumentWidth();
 
-		var slideVariableHeight = visibleHeight - (headerHeight + slideElementsHeight);
-
-		//Set the height and width of the slides and the slideshow area.
-		var totalVisibleHeight = headerHeight + slideElementsHeight + slideVariableHeight;
-
-		var slideHeight = Math.floor(slideVariableHeight);
-
-		//The slideWidth comes from the predefined cropping ratio for slides
-		var slideWidth = Math.floor((slideHeight/5)*8);
+		if(documentWidth-80>850){
+			return 850;
+		}else{
+			return documentWidth-80;
+		}
 
 	}
 
-	function buildPage(){
+	//The height for slides based on the current document dimensions
+
+	function getSlideHeight(){
+
+		return Math.floor((getSlideWidth()/8)*5);
+
+	}
+
+
+	//This doesn't create the slides, but assigns them their dimensional aspects. 
+	function buildSlides(){
+
+		var slideHeight = getSlideHeight();
+		var slideWidth = getSlideWidth();
 
 		slideshow.style.height = slideHeight + "px";
 		for(i=0; i<slides.length; i++){
@@ -73,26 +92,15 @@
 			slides[i].style.display = 'block';
 			
 		}
+	}
 
-		//Assign offsets for the slides, keeping the main slide (slides[0]) in the center
+	//Since all the slides are 'onscreen' at the same time, the cover gives the appearance of
+	//a formatted viewing box. There is a left, center and right cover. 
 
-		slideOffset = (innerDocumentWidth/2)-(getSlideWidth()/2) + 'px';
-
-		for(i=0; i<slides.length; i++){
-			slides[i].slideNumber = i + 1;
-		}
-
-		slides[0].classList.add('slideFeatured');
-		slides[0].style.left = slideOffset;
-		slides[slides.length-1].style.left = 0 - (slideWidth - parseInt(slideOffset)) + 'px';
-		for(i=1; i<slides.length-1; i++){
-			slides[i].style.left = ((slideWidth)+parseInt(slideOffset))+'px';
-		}
-		
-		//Vertically center the slideshow covers and their inherent arrows
+	function buildSlideshowCover(){
 
 		slideshowHeight = document.getElementById('slideshow').clientHeight;
-		slideshowHeight = document.getElementById('slideshow').clientHeight;
+		slideOffset = getSlideOffset();
 
 		//Left slideshow cover
 
@@ -104,72 +112,61 @@
 		//Center slideshow cover
 
 		slideshowCoverCenter.style.height = slideshowHeight + 'px';
-		slideshowCoverCenter.style.width = slideWidth + 'px';
+		slideshowCoverCenter.style.width = getSlideWidth() + 'px';
 		slideshowCoverCenter.style.left = parseInt(slideOffset) + 'px';
 
 		//Right slideshow cover
 
 		slideshowCoverRight.style.height = slideshowHeight + 'px';
 		slideshowCoverRight.style.width = slideOffset;
-		slideshowCoverRight.style.left = parseInt(slideOffset) + slideWidth + 'px';
+		slideshowCoverRight.style.left = parseInt(slideOffset) + getSlideWidth() + 'px';
 		slideArrowRight.style.left = 0;
 		slideArrowRight.style.top = (slideshowHeight/2-(slideArrowRight.clientHeight/2))+'px';
-
-		//Slider Meter
-		var slideMeter = document.getElementById('slideMeter');
-		slideMeterDots = document.getElementsByClassName('slideMeterDot');
-		slideMeter.style.width = (slideMeterDots.length * 16) + 12 + 'px';
-		slideMeterDots[0].classList.remove('slideMeterOff');
-		slideMeterDots[0].classList.add('slideMeterOn');
-
 	}
 
-	function refreshPage(){
+	//The slide offset is used to arrange slide covers as well as slides in sequence
+	function getSlideOffset(){
+		return (getDocumentWidth()/2)-(getSlideWidth()/2) + 'px';
+	}
 
-		//Get the variable height for the slideshow area by accounting for the other elements first.
+	//The slider meter keeps track of which the total number of slides and which is displayed
+	//This only sets the width of the div, but it should scale with a large # of slides
+	function buildSlideshowMeter(){
+		slideMeter.style.width = (slideMeterDots.length * 16) + 12 + 'px';
+	}
 
-		var slideVariableHeight = visibleHeight - (headerHeight + slideElementsHeight);
-
-		//Set the height and width of the slides and the slideshow area.
-		var totalVisibleHeight = headerHeight + slideElementsHeight + slideVariableHeight;
-
-		var slideHeight = Math.floor(slideVariableHeight);
-
-		//The slideWidth comes from the predefined cropping ratio for slides
-		var slideWidth = Math.floor((slideHeight/5)*8);
-		slideshow.style.height = slideHeight + "px";
-		for(i=0; i<slides.length; i++){
-			slides[i].style.width = slideWidth + "px";
-			slides[i].style.height = slideHeight + "px";
-			slides[i].style.display = 'block';
-			
-		}
-
+	//The slide offsets orient the slideshow elements from left to right
+	function buildSlideOffsets(){
 		//Assign offsets for the slides, keeping the main slide (slides[0]) in the center
 
-		slideOffset = (innerDocumentWidth/2)-(slideWidth/2) + 'px';
-
-		var currentSlide = 0;
-		var previousSlide = 0;
+		var slideOffset = getSlideOffset();
+		var slideWidth = getSlideWidth();
+		var currentSlide;
+		var previousSlide;
 
 		//Set the offset for the currently featured slide
 
 		for(i=0; i<slides.length; i++){
 			if(slides[i].classList.contains('slideFeatured')){
-				slides[i].style.left = slideOffset;
+				slides[i].style.left = parseInt(slideOffset) + 'px';
 				currentSlide = slides[i].slideNumber;
 			}
 		}
 
 		//Set the offset for the slide previous to the featured one
 
+		console.log('current slide:' + currentSlide);
+		console.log('number of slides: ' + slides.length);
+
 		for(i=0; i<slides.length; i++){
-			if(!slides[i].classList.contains('slideFeatured') && currentSlide == 1 && slides[i].slideNumber == slides.length+1){
+			if(!slides[i].classList.contains('slideFeatured') && currentSlide == 1 && slides[i].slideNumber == slides.length){
 				slides[i].style.left = 0 - (slideWidth - parseInt(slideOffset)) + 'px';
 				previousSlide = slides[i].slideNumber;
-			}else if(!slides[i].classlist.contains('slideFeatured') && currentSlide > 1 && slides[i].slideNumber == currentSlide-1){
+				console.log('worked');
+			}else if(!slides[i].classList.contains('slideFeatured') && currentSlide > 1 && slides[i].slideNumber == currentSlide-1){
 				slides[i].style.left = 0 - (slideWidth - parseInt(slideOffset)) + 'px';
 				previousSlide = slides[i].slideNumber;
+				console.log('worked');
 			}
 		}
 
@@ -177,56 +174,68 @@
 
 		for(i=0; i<slides.length; i++){
 			//The current slide is the last in the list
-			if(slides[i].slideNumber != previousSlide || slides[i].slideNumber != currentSlide || currentSlide == slides.length + 1){
-
+			if(!slides[i].classList.contains('slideFeatured') && slides[i].slideNumber != previousSlide && slides[i].slideNumber != currentSlide){
+				slides[i].style.left = ((slideWidth)+parseInt(slideOffset))+'px' 
 			}
-			//The current slide is the first in the list
 
+			//The current slide is the first in the list
 			//The current slide is neither the first nor last
 		}
 
+	}
+
+
+	//This sizes all the elements on a load. It has more events than when the page is resized.
+	function buildPage(){
+
+		var slideHeight = getSlideHeight();
+		var slideWidth = getSlideWidth();
+
+		//Create the slideshow
+
+		buildSlides();
+
+		//Assign offsets for the slides, keeping the main slide (slides[0]) in the center
+		//This is only viable for the initial page load without any moved slides. 
+
+		slideOffset = getSlideOffset();
+
+		slides[0].classList.add('slideFeatured');
 		slides[0].style.left = slideOffset;
+		slideCaptions[0].classList.remove('slideCaptionOff');
+		slideCaptions[0].classList.add('slideCaptionOn');
 		slides[slides.length-1].style.left = 0 - (slideWidth - parseInt(slideOffset)) + 'px';
 		for(i=1; i<slides.length-1; i++){
 			slides[i].style.left = ((slideWidth)+parseInt(slideOffset))+'px';
 		}
 		
-		//Vertically center the slideshow covers and their inherent arrows
+		//Build the left, center and right slideshow covers
 
-		slideshowHeight = document.getElementById('slideshow').clientHeight;
-		slideshowHeight = document.getElementById('slideshow').clientHeight;
-
-		//Left slideshow cover
-
-		slideshowCoverLeft.style.height = slideshowHeight + 'px';
-
-		if(innerDocumentWidth/slideWidth>0.5){
-
-		}else if(innerDocumentWidth/slideWidth<0.5)
-
-		slideshowCoverLeft.style.width = slideOffset;
-		slideArrowLeft.style.left = 0;
-		slideArrowLeft.style.top = (slideshowHeight/2-(slideArrowLeft.clientHeight/2))+'px';
-
-		//Center slideshow cover
-
-		slideshowCoverCenter.style.height = slideshowHeight + 'px';
-		slideshowCoverCenter.style.width = slideWidth + 'px';
-		slideshowCoverCenter.style.left = parseInt(slideOffset) + 'px';
-
-		//Right slideshow cover
-
-		slideshowCoverRight.style.height = slideshowHeight + 'px';
-		slideshowCoverRight.style.width = slideOffset;
-		slideshowCoverRight.style.left = parseInt(slideOffset) + slideWidth + 'px';
-		slideArrowRight.style.left = 0;
-		slideArrowRight.style.top = (slideshowHeight/2-(slideArrowRight.clientHeight/2))+'px';
+		buildSlideshowCover();
 
 		//Slider Meter
-		var slideMeter = document.getElementById('slideMeter');
-		var slideMeterDots = document.getElementsByClassName('slideMeterDot');
-		slideMeter.style.width = (slideMeterDots.length * 16) + 12 + 'px';
+
+		slideMeterDots[0].classList.remove('slideMeterOff');
+		slideMeterDots[0].classList.add('slideMeterOn');
+		buildSlideshowMeter();
+
 	}
+
+	//Refreshing the page requires a rebuild of most elements
+
+	function refreshPage(){
+
+		var slideHeight = getSlideHeight();
+		var slideWidth = getSlideWidth();
+
+		//Create the slideshow
+
+		buildSlides();
+		buildSlideshowCover();
+		buildSlideOffsets();
+	}
+
+
 
 	window.page = page;
 

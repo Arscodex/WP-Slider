@@ -69,23 +69,14 @@
 				echo "<div id='slideCaptionContainer'>";
 				if (have_posts()) : 
 					while (have_posts()) : the_post();
-						if (in_category('Featured')) : 
+						if (in_category('Front Page Slide')) : 
 							//The caption taken from the current slide's image file. 
-							echo "<div class='slideCaption slideCaptionOn'>";
+							echo "<div class='slideCaption slideCaptionOff'>";
 							echo get_post(get_post_thumbnail_id())->post_excerpt;
 							echo "</div>";
 						else: endif; 
 					endwhile; 
 				else: endif;
-				if (have_posts()) : 
-					while (have_posts()) : the_post();
-						if (in_category('Front Page Slide') and !in_category('Featured')) : 
-							echo "<div class='slideCaption slideCaptionOff'>";
-							echo get_post(get_post_thumbnail_id())->post_excerpt; 
-							echo "</div>";
-						else: endif; 
-					endwhile; 
-				else: endif; 
 				echo "</div>";
 			?>
 		</div>

@@ -5,6 +5,7 @@ console.log(page.getDocumentWidth());
 
 var body = document.body;
 var html = document.documentElement;
+
 var documentHeight = Math.max(body.scrollHeight, body.offsetHeight, 
 	html.clientHeight, html.scrollHeight, html.offsetHeight);
 var documentWidth = Math.max(body.clientWidth, body.offsetWidth, 
@@ -14,11 +15,8 @@ var documentWidth = Math.max(body.clientWidth, body.offsetWidth,
 
 var slides = document.getElementsByClassName('slide');
 var slideCaptions = document.getElementsByClassName('slideCaption');
+var slideMeter = document.getElementById('slideMeter');
 var slideMeterDots = document.getElementsByClassName('slideMeterDot');
-
-//Slideshow Functions
-
-var slideWidth = (documentHeight/6);
 
 //moveFlag prevents button spam. 'True' means the move event will work. 
 var moveFlag = true;
@@ -35,18 +33,18 @@ var autoSlideInterval;
 //Events for responsive design
 
 window.onload = function(){
-	//Setting the minimum size of the main content area
-	page.build();
 	//Assign id numbers to slides and their elements
 	slideshow.assignSlideProperties();
-	//Default instance of the slide animation timer
- 	//slideshow.autoSlide();
+	//Setting the minimum size of the main content area
+	page.build();
+	//Default instance of the slide animation timer. 
+ 	slideshow.autoSlide();
 }
 
 window.onresize = function(){
+
 	//Refresh the page elements
 	page.refreshPage();
-	console.log(page.getDocumentWidth());
 }
 
 document.getElementById('leftArrow').onclick = function(){

@@ -26,7 +26,7 @@ $fontDark:#808080;
 $fontLight:#e6e6e6;
 
 //Black text, etc.
-$black:#000000;
+$black:#222222;
 
 //White
 $white:#ffffff;
@@ -92,13 +92,17 @@ h3{
 
 /* Wrapper */
 
+body{
+	background-color:$black;
+}
+
 #wrapper{
 	width:100%;
 	position:absolute;
 	font:{
 		family:$mainFont;
 	}
-	background-color:$fontLight;
+	background-color:$black;
 	overflow:hidden;
 }
 
@@ -136,165 +140,6 @@ h3{
 	position:fixed;
 	z-index:10;
 	margin:0;
-}
-
-/* Logo portion of the header */
-
-#logoContainer{
-	width:20%;
-	height:100px;
-	float:left;
-}
- 
-$assets:'assets/'; 
-
-#logo{
-	height:100px;
-	width:220px;
-	padding-left:15px;
-	background:{
-		image:url($assets + 'Logos.png');
-		size:contain;
-		repeat:no-repeat;
-		position:center;
-	}
-}
-
-#pageTitle-navContainer{
-	width:60%;
-	margin:0 auto;
-	height:100px;
-	float:left;
-}
-
-#pageTitleContainer{
-	margin:0 auto;
-	width:100%;
-	height:65px;
-	padding-top:5px;
-	font:{
-		family:$mainFont;
-	}
-	& .line{
-		margin: 0 0 5px 0;
-	}
-}
-
-#pageTitle{
-	width:423px;
-	height:55px;
-	text:{
-		align:left;
-	}
-	margin:10px auto 0;
-	font:{
-		size:20px;
-		weight:bold;
-	}
-	& h1:first-child{
-		color:$fontLight;
-		text-align:center;
-		float:left;
-		margin-right:10px;
-	}
-	& h1:nth-child(2){
-		color:$fontDark;
-		text-align:center;
-		float:left;
-	}
-}
-
-#titleBar{
-	width:100%;
-	height:4px;
-	margin-top:3px;
-	background-color:$fontLight;
-}
-
-/* Navigation Buttons and Links */
-
-#navigationContainer{
-	margin:0 auto;
-	width:100%;
-	height:35px;
-}
-
-.underline{
-	width:100%;
-	height:2px;
-	background-color:$fontLight;
-	display:none;
-}
-
-/* Navigation Bar, starting with icons */
-
-#contactMenu{
-	width:75%;
-	height:35px;
-	margin:0 auto;
-	& ul{
-		width:80%;
-		margin:0 auto;
-	}
-	& ul .navLinkBasic:hover{
-		cursor:pointer;
-		background-color:$fontLight;
-		color:$black;
-		border-radius:10px;
-	}
-	& ul .navLink{
-		padding-top:0px;
-		color:$fontLight;
-		margin-top:5px;
-		width:100px;
-		height:18px;
-		float:left;
-		text:{
-			align:center;
-			decoration:none;
-		}
-		font:{
-			family:$mainFont;
-			size:15px;
-		}
-		margin-right:5px;
-	}
-	
-	& ul .navLinkBasic:active{
-	}
-
-	& ul .icon{
-		width:30px;
-		height:30px;
-		float:left;
-		padding-top:3px;
-		margin-right:7px;
-	}
-	& ul li img{
-		margin-left:5px;
-	}
-}
-
-/* Contact Links */
-
-#contactLinksContainer{
-	padding-top:5px;
-	width:20%;
-	height:100px;
-	float:left;
-}
-
-/* Main Content Styles */
-
-.title{
-
-}
-
-#mainContent{
-	width:90%;
-	margin:0 auto 12px;
-	text-align:center;
-	min-height:225px;
 }
 
 /* Slideshow Elements */
@@ -378,7 +223,7 @@ $assets:'assets/';
 	width:8px;
 	height:8px;
 	margin:4px;
-	background-color:$white;
+	background-color:$fontLight;
 	border:{
 		style:solid;
 		radius:10px;
@@ -537,145 +382,6 @@ $assets:'assets/';
 	100%{transform:translateX(0);}
 }
 
-/* Spotlight feature */
-
-#onStage{
-	background-color:$black;
-	width:100%;
-	min-height:75px;
-}
-
-#onStageContent{
-	margin:0 auto;
-	width:90%;
-}
-
-#onStageTitle{
-	width:100%;
-	height:26px;
-	background-color:$black;
-	font:{
-		size:24px;
-		weight:bold;
-	}
-	text-align:center;
-	& span:first-child{
-		color:$fontDark;
-	}
-	& span:nth-child(2){
-		color:$fontLight;
-	}
-}
-
-#spotlights{
-	width:90%;
-	height:28px;
-	margin:0 auto 10px;
-}
-
-.spotlight{
-	color:$fontLight;
-	height:20px;
-	padding-top:3px;
-	margin:0 2px;
-	text-align:center;
-	float:left;
-	font:{
-		size:14px;
-		weight:bold;
-	}
-	border-radius:10px;
-	&:hover{
-		cursor:pointer;
-		background-color:$fontLight;
-		color:$black;
-	}
-}
-
-.activeSpotlight{
-		cursor:pointer;
-		background-color:$fontLight;
-		color:$black;
-}
-
-.spotlightPost{
-	display:none;
-}
-
-.frontPagePost{
-	
-}
-
-.content{
-	margin:15px auto 0;
-	background-color:$fontLight;
-	width:70%;
-	min-height:50px;
-	padding:5px;
-}
-
-/* Sidebar Styles */
-
-#sidebar{
-
-}
-
-/* Footer Styles */
-
-.delimeter{
-
-}
-
 .divisor{
 	clear:both;
-}
-
-#footer{
-	background-color:$black;
-	color:$fontLight;
-	width:100%;
-	min-height:60px;
-	padding:10px 0;
-	font:{
-		family:$mainFont;
-		size:14px;
-	}
-	text:{
-		align:center;
-		decoration:none;
-	}
-}
-
-#footerContent{
-	width:70%;
-	margin:10px auto 0;
-}
-
-#footerLinks{
-	width:100%;
-	min-height:40px;
-	margin:10px auto 0;
-}
-
-.footerColumn{
-	float:left;
-	margin:0 10px;
-	font:{
-		size:12px;
-	}
-	&:first-child{
-		margin-left:30%;
-	}
-	& div{
-		width:100px;
-	}
-	& div:hover{
-		font:{
-			weight:bold;
-		}
-		cursor:pointer;
-	}
-	& div:nth-child(n+2){
-		color:$fontDark;
-	}
 }
